@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>RESKy Business</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--link rel="shortcut icon" href="assets/images/favicon.png"-->
+  <link rel="shortcut icon" href="assets/images/favicon.png">
   <!--Bootstrap stylesheet-->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
@@ -46,12 +46,78 @@
 
 <body>
 
-  <div class="hero-image">
-    <div class="hero-text">
-      <h1>RESKy Business!</h1>
-      <h2>The Source for Stock Info</h2>
+  <div class="hero flex-center d-none d-md-block">
+    <div class="hero-message">
+      <h1 class="hero-title">RESKy Business!</h1>
+      <h4 class="hero-subtitle">Opportunity Makes Your Future</h4>
     </div>
   </div>
+
+  <!--Nav Bar-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark pt-0 pb-0">
+    <div class="d-flex flex-grow-1">
+      <!--span class="w-100 d-lg-none d-block">
+         hidden spacer to center brand on mobile, not needed to left align brand</span-->
+      <a class="navbar-brand d-none d-lg-inline-block" href="#">
+        <img src="./assets/images/logo_dark_45x45.png" alt="logo">
+        <span class="format-font-italic"> RESKy Business!</span>
+      </a>
+      <a class="navbar-brand-two mx-auto d-lg-none d-inline-block" href="#">
+          <img src="./assets/images/logo_dark_45x45.png" alt="logo">
+      </a>
+      <div class="w-100 text-right">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+    <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar">
+      <ul class="navbar-nav ml-auto flex-nowrap">
+        <li class="nav-item">
+          <a href="#" class="nav-link m-2 menu-item nav-active">Our Solution</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link m-2 menu-item" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link  m-2 menu-item disabled" href="#">Disabled</a>
+        </li>
+        <li class="nav-item  m-2 menu-item dropdown">
+          <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown07" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">Dropdown</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown07">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link m-2 menu-item">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <form>
+    <!--These options need to be populated from Javascript thru the array-->
+    <div class="form-group">
+      <label for="sector">Select Sectors</label>
+      <select class="form-control" id="sector-select">
+        <option>Consumer Discretionary</option>
+        <option>Consumer Staples</option>
+        <option>Energy</option>
+        <option>Financials</option>
+        <option>Health Care</option>
+        <option>Industrials</option>
+        <option>Information Technology</option>
+        <option>Materials</option>
+        <option>Real Estate</option>
+        <option>Telecommunication Services</option>
+        <option>Utilities</option>
+      </select>
+    </div>
+  </form>
 
   <!-- Firebase Reference -->
   <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
