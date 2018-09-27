@@ -46,6 +46,7 @@
 
 <body>
 
+  <!--Banner-->
   <div class="hero flex-center d-none d-md-block">
     <div class="hero-message">
       <h1 class="hero-title">RESKy Business!</h1>
@@ -63,7 +64,7 @@
         <span class="format-font-italic"> RESKy Business!</span>
       </a>
       <a class="navbar-brand-two mx-auto d-lg-none d-inline-block" href="#">
-          <img src="./assets/images/logo_dark_45x45.png" alt="logo">
+        <img src="./assets/images/logo_dark_45x45.png" alt="logo">
       </a>
       <div class="w-100 text-right">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
@@ -99,25 +100,150 @@
   </nav>
 
 
-  <form>
-    <!--These options need to be populated from Javascript thru the array-->
-    <div class="form-group">
-      <label for="sector">Select Sectors</label>
-      <select class="form-control" id="sector-select">
-        <option>Consumer Discretionary</option>
-        <option>Consumer Staples</option>
-        <option>Energy</option>
-        <option>Financials</option>
-        <option>Health Care</option>
-        <option>Industrials</option>
-        <option>Information Technology</option>
-        <option>Materials</option>
-        <option>Real Estate</option>
-        <option>Telecommunication Services</option>
-        <option>Utilities</option>
-      </select>
+  <!-- Outer Container, full width of screen-->
+  <div class="container-fluid">
+    <!--split screen 2/3 for tables, 1/3 for stocktwits-->
+    <div class="row">
+      <div class=col-9>
+        <div class="card mt-5">
+          <div class="card-header">Stock Search</div>
+          <div class="card-body">
+            <!-- Entry Form -->
+            <form role="form" name="myForm" onsubmit="return validateForm()">
+              <div class="form-group row">
+                <div class="col-5 form-group">
+                  <label for="sector">Select Sectors</label>
+                  <select class="form-control" id="sector-select">
+                    <option style="display:none">Choose Sector</option>
+                    <option>Consumer Discretionary</option>
+                    <option>Consumer Staples</option>
+                    <option>Energy</option>
+                    <option>Financials</option>
+                    <option>Health Care</option>
+                    <option>Industrials</option>
+                    <option>Information Technology</option>
+                    <option>Materials</option>
+                    <option>Real Estate</option>
+                    <option>Telecommunication Services</option>
+                    <option>Utilities</option>
+                  </select>
+                </div>
+                <div class="col-2 text-center flex-direction-column align-self-center">
+                  <span class="font-weight-bold">-- OR --</span>
+                </div>
+                <div class="col-5">
+                  <label for="company-name-input">Company Name</label>
+                  <input class="form-control" id="company-name-input" placeholder="ABC Company" type="text" />
+                </div>
+
+              </div>
+              <hr />
+            </form>
+
+            <!--Table Wrapper-->
+            <div class="container mt-5">
+              <!--Table-->
+              <table id="stockTable" class="table table-striped table-bordered table-hover">
+                <caption class="caption-top">Stock Listing (Recent Search)</caption>
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Current Price</th>
+                    <th>Prior Day Close</th>
+                    <th>Change</th>
+                    <th>% Change</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--Rows/Columns retreived from API-->
+                  <tr>
+                    <th>JPM</th>
+                    <th>JPMorgan Chase & Co.</th>
+                    <th>115.02</th>
+                    <th>114.52</th>
+                    <th>-0.50</th>
+                    <th>-0.43%</th>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Current Price</th>
+                    <th>Prior Day Close</th>
+                    <th>Change</th>
+                    <th>% Change</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!--Close Table Wrapper-->
+
+
+          </div>
+        </div>
+      </div>
+
+      <!--split screen - 1/3 for stocktwits-->
+      <div class=col-3>
+        <div class="card mt-5">
+
+          <!-- Card Header -->
+          <div class="card-header">Stocktwits Says: Sun Gone</div>
+
+          <!-- Card Block -->
+          <div class="card-body">
+            <p class="card-text">Expert opinions are divided. Here's what they say will happen next.</p>
+          </div>
+
+          <!-- List Group -->
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">The Sun will come back</li>
+            <li class="list-group-item">The Sun won't come back</li>
+            <li class="list-group-item">It will have babies and spawn thousands more suns</li>
+            <li class="list-group-item">Good night!</li>
+          </ul>
+        </div>
+        <!--End Card Container-->
+
+      </div>
+      <!--End Split Screen-->
     </div>
-  </form>
+
+  </div>
+  <!--End Outer Container-->
+
+      <!--Rotating Stock Ticker-->
+      <div class="marquee3k mt-5 container-fluid">
+          <span class="font-weight-bold">MMM 3M</span>&nbsp
+          <span class="font-weight-normal">-0.96</span>&nbsp&nbsp
+          
+          <span class="font-weight-bold">AXP American Express</span>&nbsp
+          <span class="font-weight-normal">-0.16</span>&nbsp&nbsp
+
+          <span class="font-weight-bold">AAPL Apple</span>&nbsp
+          <span class="font-weight-normal">4.53</span>&nbsp&nbsp
+
+          <span class="font-weight-bold">BA Boeing</span>&nbsp
+          <span class="font-weight-normal">2.36</span>&nbsp&nbsp
+
+          <span class="font-weight-bold">CAT Caterpillar</span>&nbsp
+          <span class="font-weight-normal">0.7</span>&nbsp&nbsp
+
+          <span class="font-weight-bold">CVX Chevron</span>&nbsp
+          <span class="font-weight-normal">0.52</span>&nbsp&nbsp
+
+          <span class="font-weight-bold">CSCO Cisco</span>&nbsp
+          <span class="font-weight-normal">-0.08</span>&nbsp&nbsp
+
+          <span class="font-weight-bold">KO Coca-Cola</span>&nbsp
+          <span class="font-weight-normal">-0.16</span>&nbsp&nbsp
+
+          <span class="font-weight-bold">DIS Disney</span>&nbsp
+          <span class="font-weight-normal">0.83</span>&nbsp&nbsp
+        </div>
+  
 
   <!-- Firebase Reference -->
   <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>

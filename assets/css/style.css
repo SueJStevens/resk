@@ -7,6 +7,8 @@ Color Theme:  green_dark: #185F02;
 Color Theme:  green_medium: #357804;
 Color Theme:  gold: #A68312;
 Color Theme:  brown: #795112;
+Color Theme:  Alt Brown:#CAB994;
+
 Color Theme:  white: #F2F6F2;
 Color Theme:  black: #081F01;
 
@@ -172,3 +174,41 @@ position: relative;
     color: rgba(242,246,242,1)!important;
 }
 
+.card-header {
+  background-color:#CAB994;
+}
+
+.table .thead-dark th {
+  color: black;
+  font-weight: 400;
+  background-color: #CAB994!important;
+  border-style: solid;
+  border-color: #dee2e6!important;
+  border-width: 1px;
+}
+
+th {
+  color: black;
+  font-weight: normal;
+}
+
+caption {
+  caption-side: top;
+  text-align: center;
+  color: black;
+  background-color: #CAB994!important;
+  border-style: solid;
+  border-color: #dee2e6!important;
+  border-width: 1px;
+  font-size: 1.25rem!important;
+  font-weight: 400!important;
+}
+
+.marquee3k {
+  background-color: #CAB994!important;
+  border-style: solid;
+  border-color: #dee2e6!important;
+  border-width: 1px;
+  max-height: 24px;
+  overflow: hidden;
+}
