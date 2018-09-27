@@ -11,14 +11,14 @@ Bootcamp Assignment 9/25/2018 - 1st Group Project
 
 ## Folder Structure
 * Root
- * Index.html
- * README.md
- * assets
-  * css
-   * styles.css (styles specific to our application.  Create new css if necessary to adjust styles provided by outside sources.)
+  * Index.html
+  * README.md
+  * assets
+    * css
+    * styles.css (styles specific to our application.  Create new css if necessary to adjust styles provided by outside sources.)
   * images
   * javascript
-   * logic.js
+    * logic.js
 
 ## HTML Classes
 * lower-case (dash between each word)
@@ -42,10 +42,12 @@ example:
 
 ## APIs
 [StockTwits](https://api.stocktwits.com/api/2/oauth/authorize)
+
 [IEX](https://iextrading.com/developer/docs/)
 
 ## JQuery Libraries
 [Accounting.js](https://openexchangerates.github.io/accounting.js/)
+
 [DataTables](https://datatables.net/)
 
 
