@@ -158,7 +158,6 @@ position: relative;
     }
     
     .hero-title {
-    margin: 3% 0 0 0;
     font-size: 3.5rem;
     }    
 
@@ -204,7 +203,7 @@ caption {
   font-weight: 400!important;
 }
 
-.marquee3k {
+.stock-ticker {
   background-color: #CAB994!important;
   border-style: solid;
   border-color: #dee2e6!important;

@@ -182,7 +182,7 @@ function getStockInfo(companyName){
   }
 
 
-  $("#stockTable tbody").append(newRow);
+  $("#company-output tbody").append(newRow);
 }
 
 /**
