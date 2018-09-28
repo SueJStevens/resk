@@ -1,0 +1,214 @@
+/*Imported Fonts
+font-family: 'Courgette', cursive;
+font-family: 'Montserrat', sans-serif;
+font-family: 'Open Sans', sans-serif;
+
+Color Theme:  green_dark: #185F02;
+Color Theme:  green_medium: #357804;
+Color Theme:  gold: #A68312;
+Color Theme:  brown: #795112;
+Color Theme:  Alt Brown:#CAB994;
+
+Color Theme:  white: #F2F6F2;
+Color Theme:  black: #081F01;
+
+Alternate Green: #124501
+Alternate Green: #0A5225
+Alternate Green: #183812
+*/
+@import url('https://fonts.googleapis.com/css?family=Courgette|Montserrat|Open+Sans');
+
+/*Custom classes used for testing purposes*/
+.red-border {
+border-style: solid;
+border-color: red;
+}
+
+.blue-border {
+border-style: solid;
+border-color: blue;
+}
+
+body, html {
+height: 100%;
+height: 100%;
+font-family: 'Montserrat', 'Open Sans', sans-serif;
+}
+
+/*
+Tutorial for Hero design found here:  
+https://love2dev.com/blog/responsive-hero-background-opacity/
+*/
+.hero {
+width: 100%;
+height: 15%;
+min-width: 100%;
+min-height: 15%;
+position: relative;
+}
+
+.hero::before {
+background-image: url("../images/logo_transparent.png");
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+position: relative;
+content: "";
+display: block;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -2;
+opacity: 0.5;
+}
+
+/*Add Responsive Background Images sized down for each media breakpoint 
+Note!  sjs to work with this in the future.
+@media (min-width: 320px) {
+  .hero::before {
+     background-image: url(/img/background-1932466_1920-460x305.jpg);
+    }
+  }
+
+  @media (min-width: 460px) {
+    .hero::before {
+      background-image: url(/img/background-1932466_1920-720x477.jpg);
+    }
+  }
+
+  @media (min-width: 720px) {
+    .hero::before {
+      background-image: url(/img/background-1932466_1920-980x649.jpg);
+    }
+  }
+
+  @media (min-width: 980px) {
+    .hero::before {
+      background-image: url(/img/background-1932466_1920-1240x821.jpg);
+    }
+  }
+
+  @media (min-width: 1240px) {
+    .hero::before {
+      background-image: url(/img/background-1932466_1920-1500x993.jpg);
+    }
+  }
+
+  @media (min-width: 1500px) {
+    .hero::before {
+      background-image: url(/img/background-1932466_1920-1760x1166.jpg);
+    }
+  }
+
+  @media (min-width: 1760px) {
+  .hero::before {
+    background-image: url(/img/background-1932466_1920-1920x1271.jpg);
+  }
+}
+*/
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  }
+
+.hero-message {
+color: #081F01;
+min-width: 100%;
+min-height: 12em;
+position: relative;
+}
+
+.hero-message::before {
+  content: "";
+  display: block;
+  position: absolute;
+  margin-left: 0;
+  min-width: 100%;
+  min-height: 12em;
+  z-index: -1;
+  opacity: 0.1;
+  background-color:#F2F6F2;
+  }
+
+/* future work adjust for responsive
+  @media(min-width:1024px) {
+    .hero-message {
+    min-width: 50%;
+    min-height: 12em;
+    }
+    .hero-message::before {
+    margin-left: 25%;
+    min-width: 50%;
+    min-height: 12em;
+    }
+    }
+    */
+
+    .hero-title,
+    .hero-subtitle {
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-family: 'Courgette', cursive; 
+    }
+    
+    .hero-title {
+    margin: 3% 0 0 0;
+    font-size: 3.5rem;
+    }    
+
+    .format-font-italic {
+      font-family: 'Courgette', cursive; 
+    }
+
+    .bg-dark {
+      background-color: #081F01!important;
+  }
+
+  .navbar-dark .navbar-nav .nav-link:focus, .nav-active, .navbar-dark .navbar-nav .nav-link:hover {
+    color: rgba(242,246,242,1)!important;
+}
+
+.card-header {
+  background-color:#CAB994;
+}
+
+.table .thead-dark th {
+  color: black;
+  font-weight: 400;
+  background-color: #CAB994!important;
+  border-style: solid;
+  border-color: #dee2e6!important;
+  border-width: 1px;
+}
+
+th {
+  color: black;
+  font-weight: normal;
+}
+
+caption {
+  caption-side: top;
+  text-align: center;
+  color: black;
+  background-color: #CAB994!important;
+  border-style: solid;
+  border-color: #dee2e6!important;
+  border-width: 1px;
+  font-size: 1.25rem!important;
+  font-weight: 400!important;
+}
+
+.marquee3k {
+  background-color: #CAB994!important;
+  border-style: solid;
+  border-color: #dee2e6!important;
+  border-width: 1px;
+  max-height: 24px;
+  overflow: hidden;
+}
