@@ -76,23 +76,7 @@ function displayStockInfo(response){
 
   var quote = response.quote;
 
-  // Create a ne row with the stock info and add to our table
-  var newRow = $("<tr>");
-
-  // First column - company symbol (ticker)
-  newRow.append("<td>"+quote.symbol+"</td>");
-
-  // Second column - company name
-  newRow.append("<td>"+quote.companyName+"</td>");
-  
-  // Third column - current price
-  newRow.append("<td>"+quote.latestPrice+"</td>");
-
-  // Fourth column - previous closing price
-  newRow.append("<td>"+quote.previousClose+"</td>");
-
-  // Fifth and sixth columns - gain and gain percentage
-
+  //if/else for positiveOrNegative symbol output
   if(quote.change >= 0){
     positiveOrNegative = "+";
 
@@ -100,10 +84,19 @@ function displayStockInfo(response){
     positiveOrNegative = "";
   }
     
-  newRow.append("<td>"+ positiveOrNegative + quote.change +"</td>");
-  newRow.append("<td>"+ positiveOrNegative + quote.changePercent +"%"+"</td>");
 
-  $("#company-output tbody").append(newRow);
+  //company output DataTable for all variables is here
+  var companyOutput = $('#company-output').DataTable();
+
+  companyOutput.row.add([
+    quote.symbol,
+    quote.companyName,
+    quote.latestPrice,
+    quote.previousClose,
+    positiveOrNegative + quote.change,
+    positiveOrNegative + quote.changePercent
+  ]).draw();
+
 
 }
 
