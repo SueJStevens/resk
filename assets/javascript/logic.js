@@ -23,7 +23,9 @@ $(function () {
   //News
   //var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/market/news/last/10");
     //logo
-  var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/qcom/logo");
+  //var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/qcom/logo");
+  //ref-data/symbols
+  var queryURL = encodeURI("https://api.iextrading.com/1.0/ref-data/symbols");
   $.ajax({
     url: queryURL,
     method: "GET"
@@ -159,7 +161,7 @@ function getStockInfo(companyName){
     // market is closed OR market is open and current price is equal to 
     // previous closing price. In any case, we can use either value
     newRow.append("<td>"+previousClosingInfo.change+"</td>");
-    newRow.append("<td>"+previousClosingInfo.changePercent+"</td>");s
+    newRow.append("<td>"+previousClosingInfo.changePercent+"</td>");
   }else{
     // Calculate the gain (or loss, which would be negative gain)
     // Limit to two digits beyond decimal point
