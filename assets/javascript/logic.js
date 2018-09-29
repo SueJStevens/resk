@@ -34,8 +34,10 @@ $(function () {
   //var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/market/news/last/10");
     //logo
 
+
   // Get company info for all companies listed on IEX (Name, Ticker symbol)
   getCompanyNames();
+
 
 /**
  * Summary:
@@ -90,8 +92,10 @@ function displayStockInfo(response){
   newRow.append("<td>"+quote.previousClose+"</td>");
 
   // Fifth and sixth columns - gain and gain percentage
+
   if(quote.change >= 0){
     positiveOrNegative = "+";
+
   }else{
     positiveOrNegative = "";
   }
