@@ -1,4 +1,5 @@
-$(function () {
+//$(function () {
+$(document).ready(function() {
 
   //11 broad GICS sectors
   arrSectors=[
@@ -134,20 +135,25 @@ function getStockInfo(companyName){
      return;
   }
 
+
+
+ //$("#company-output tbody").append(newRow);
+
+
   // Create a ne row with the stock info and add to our table
-  var newRow = $("<tr>");
+  //var newRow = $("<tr>");
 
   // First column - company symbol (ticker)
-  newRow.append("<td>"+previousClosingInfo.symbol+"</td>");
+ // newRow.append("<td>"+previousClosingInfo.symbol+"</td>");
 
   // Second column - company name
-  newRow.append("<td>"+companyInfo.companyName+"</td>");
+  //newRow.append("<td>"+companyInfo.companyName+"</td>");
   
   // Third column - current price
-  newRow.append("<td>"+currentPrice+"</td>");
+  //newRow.append("<td>"+currentPrice+"</td>");
 
   // Fourth column - previous closing price
-  newRow.append("<td>"+previousClosingInfo.close+"</td>");
+  //newRow.append("<td>"+previousClosingInfo.close+"</td>");
 
   // Fifth and sixth columns - gain and gain percentage
   // This part requires some additional logic. 
@@ -155,13 +161,18 @@ function getStockInfo(companyName){
   //    gain and gain percentage from the previous closing info
   // 2. If current price DOES NOT EQUAL closing price, we have to
   //    compute the gain and gain percentage.
+var changeOutput = 0;
+var changePercentageOutput = 0;
 
   if(currentPrice === previousClosingInfo.close){
     //Current price equals previous closing price. This means either the
     // market is closed OR market is open and current price is equal to 
     // previous closing price. In any case, we can use either value
-    newRow.append("<td>"+previousClosingInfo.change+"</td>");
-    newRow.append("<td>"+previousClosingInfo.changePercent+"</td>");
+    //newRow.append("<td>"+previousClosingInfo.change+"</td>");
+    changeOutput = previousClosingInfo.change;
+  
+    //newRow.append("<td>"+previousClosingInfo.changePercent+"</td>");
+    changePercentageOutput = previousClosingInfo.changePercent;
   }else{
     // Calculate the gain (or loss, which would be negative gain)
     // Limit to two digits beyond decimal point
@@ -179,13 +190,36 @@ function getStockInfo(companyName){
       positiveOrNegative = "-";
     }
     
-    newRow.append("<td>"+ positiveOrNegative + gain +"</td>");
-    newRow.append("<td>"+ positiveOrNegative + gainPercentage +"%"+"</td>");
+    //newRow.append("<td>"+ positiveOrNegative + gain +"</td>");
+    changeOutput = gain;
+    //newRow.append("<td>"+ positiveOrNegative + gainPercentage +"%"+"</td>");
+    changePercentageOutput = gainPercentage;
   }
+  
+  console.log("testing testing 123");
+  console.log(previousClosingInfo.symbol); 
+  
 
+  var companyOutput = $('#company-output').DataTable();
 
-  $("#company-output tbody").append(newRow);
+  companyOutput.row.add([
+    previousClosingInfo.symbol,
+    companyInfo.companyName,
+    currentPrice,
+    previousClosingInfo.close,
+    changeOutput,
+    changePercentageOutput
+  ]).draw();
+ 
 }
+
+
+
+//} );
+
+
+
+
 
 /**
  * Summary: 
