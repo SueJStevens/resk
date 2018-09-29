@@ -97,6 +97,10 @@ function displayStockInfo(response){
     positiveOrNegative + quote.changePercent
   ]).draw();
 
+  $("#clear-output-button").on("click", function() {   
+    $("#company-output-tbody").empty();
+  });
+
 
 }
 
@@ -135,6 +139,30 @@ function getStockInfo(companyName){
  *  If the user specified a sector, it fetches stock info about
  *  companies in that sector.
  */
+$('#add-company-button').on("click", function(event){
+  event.preventDefault();
+    companyName = $('#company-name-input').val().trim().toLowerCase();
+    console.log("The company name is "+companyName);
+
+    if(companyName == ""){
+      console.log("Please enter a company name");
+      return;
+    }
+
+    /* Still TBD: not sure if this will be necessary with auto-complete
+    tickerSymbol = lookupCompany(companyName);
+    if(!tickerSymbol){
+      console.log(companyName + " not found");
+      return;
+    }*/
+
+    // Valid company - construct API call to look up stock price and 
+    // other info
+    console.log("Looking up stock info on "+companyName);
+
+    getStockInfo(companyName);
+});
+
 $('#company-name-input').keypress(function(event){
   var keycode = (event.keyCode ? event.keyCode : event.which);
   var companyName = "";
