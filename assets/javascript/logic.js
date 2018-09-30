@@ -143,6 +143,12 @@ $('#add-company-button').on("click", function(event){
   event.preventDefault();
     companyName = $('#company-name-input').val().trim().toLowerCase();
     console.log("The company name is "+companyName);
+    //split the string into two parts:  The stock ticker symbol and the company name
+    var tickerFromInput = companyName.substr(0, companyName.indexOf('-') - 1);
+    var companyFromInput = companyName.substr(companyName.indexOf("-") + 1);
+    console.log("SUE's Ticker: "+tickerFromInput);
+    console.log("SUE's Co: "+companyFromInput);
+    companyName = tickerFromInput;
 
     if(companyName == ""){
       console.log("Please enter a company name");
