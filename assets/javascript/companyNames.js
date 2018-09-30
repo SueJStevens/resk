@@ -34,19 +34,9 @@ function getCompanyNames()
 	// We have the companies list, we gotta trim the list to 
 	// common stocks only. (type = "cs")
 	console.log(queryResponse[0].type);
-  for (i = 0; i < queryResponse.length; i++){
+  for (i = queryResponse.length-1; i > 0; i--){
 		var type = queryResponse[i].type.trim().toLowerCase();
-		var name = queryResponse[i].name.trim().toLowerCase();
-		var symbol = queryResponse[i].symbol.trim().toLowerCase();
-		if(symbol === "adro"){
-			console.log("Splicing "+name+" from the list");
-			console.log("Its type is "+type);
-		}
 		if(type !== "cs"){
-			if(symbol === "aieq"){
-				console.log("Splicing "+name+" from the list");
-				console.log("Its type is "+type);
-			}
 			queryResponse.splice(i,1);
 		}
 	}
