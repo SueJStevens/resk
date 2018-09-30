@@ -1,3 +1,13 @@
+/**
+ * Summary:
+ *  This file contains the main logic for 
+ *     1. User input (search for stock info based on company name/ticker symbol)
+ *     2. Use IEX API to fetch the desired information
+ *     3. Store recent company searches in FireBase. 
+ *        These will be pre-loaded as 'recent/trending' the next time.
+ */
+
+
 $(function () {
 
   //11 broad GICS sectors
@@ -14,6 +24,7 @@ $(function () {
   "Utilities", //150
   "Real Estate" //477
     ];
+  
 
   //encode URL to accomodate spaces in the sectors
   //var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/market/collection/sector?collectionName="+arrSectors[8]);
@@ -22,14 +33,172 @@ $(function () {
   //News
   //var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/market/news/last/10");
     //logo
-  var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/qcom/logo");
+
+
+  // Get company info for all companies listed on IEX (Name, Ticker symbol)
+  getCompanyNames();
+
+
+/**
+ * Summary:
+ *  This function looks up the company entered by the user.
+ *  Returns ticker symbol if present in the list, empty 
+ *  string otherwise.
+ * 
+ * The logic for this function is TBD.
+ */
+function lookupCompany(companyName){
+  var tickerSymbol = '';
+  if(!companyName)
+  {
+    return "";
+  }
+ 
+  /* Logic to look up company name in the big list */
+  /* THIS IS TBD */
+
+  return tickerSymbol;
+}
+
+/**
+ * Summary:
+ *  Callback function that runs when the AJAX
+ *  call to IEX returns a successful response.
+ * 
+ * The response should contain the stock quote
+ * information about the company.
+ * 
+ * @param {object} response : Object returned by IEX
+ */
+function displayStockInfo(response){
+  console.log("Here is the stock quote information -");
+  console.log(response.quote);
+
+  var quote = response.quote;
+
+  //if/else for positiveOrNegative symbol output
+  if(quote.change >= 0){
+    positiveOrNegative = "+";
+
+  }else{
+    positiveOrNegative = "";
+  }
+    
+
+  //company output DataTable for all variables is here
+  var companyOutput = $('#company-output').DataTable();
+
+  companyOutput.row.add([
+    quote.symbol,
+    quote.companyName,
+    quote.latestPrice,
+    quote.previousClose,
+    positiveOrNegative + quote.change,
+    positiveOrNegative + quote.changePercent
+  ]).draw();
+
+  $("#clear-output-button").on("click", function() {   
+    $("#company-output-tbody").empty();
+  });
+
+
+}
+
+/**
+ * Summary:
+ *  Get Stock information on the specified company
+ * 
+ * @param {string} companyName
+ */
+function getStockInfo(companyName){
+
+  /*  Construct the AJAX query for IEX.
+   *  It is a batch query to IEX, where type = "quote"
+   */
+  var queryURL = "https://api.iextrading.com/1.0/stock/" + companyName + "/batch?types=quote";
   $.ajax({
     url: queryURL,
-    method: "GET"
-  }).then(function (response) {
-    var data = response;
-    console.log(data);
-  }); //end ajax call
+    method: "GET",
+    //async: false,
+    timeout: 30000, // timeout of 30 seconds
+    success: displayStockInfo,
+    error: function(){
+      console.log("Error in query response for Company Info");
+      queryFailed = true;
+    }
+  });
+}
+
+/**
+ * Summary: 
+ *  Click Handler for the 'submit' button.
+ *
+ * Description.
+ *  If the user typed in a company name, it fetches stock info
+ *  for that company.
+ *  If the user specified a sector, it fetches stock info about
+ *  companies in that sector.
+ */
+$('#add-company-button').on("click", function(event){
+  event.preventDefault();
+    companyName = $('#company-name-input').val().trim().toLowerCase();
+    console.log("The company name is "+companyName);
+
+    if(companyName == ""){
+      console.log("Please enter a company name");
+      return;
+    }
+
+    /* Still TBD: not sure if this will be necessary with auto-complete
+    tickerSymbol = lookupCompany(companyName);
+    if(!tickerSymbol){
+      console.log(companyName + " not found");
+      return;
+    }*/
+
+    // Valid company - construct API call to look up stock price and 
+    // other info
+    console.log("Looking up stock info on "+companyName);
+
+    getStockInfo(companyName);
+});
+
+$('#company-name-input').keypress(function(event){
+  var keycode = (event.keyCode ? event.keyCode : event.which);
+  var companyName = "";
+  
+  
+  if(keycode !== 13){
+    console.log('You pressed' + event.keyCode + ' key in textbox');
+  }
+  else{
+    var tickerSymbol = "";
+
+    console.log('You pressed a "enter" key in textbox');
+    event.preventDefault();
+    companyName = $('#company-name-input').val().trim().toLowerCase();
+    console.log("The company name is "+companyName);
+
+    if(companyName == ""){
+      console.log("Please enter a company name");
+      return;
+    }
+
+    /* Still TBD: not sure if this will be necessary with auto-complete
+    tickerSymbol = lookupCompany(companyName);
+    if(!tickerSymbol){
+      console.log(companyName + " not found");
+      return;
+    }*/
+
+    // Valid company - construct API call to look up stock price and 
+    // other info
+    console.log("Looking up stock info on "+companyName);
+
+    getStockInfo(companyName);
+  }
+  
+});
 
 
 }); //end on ready function
