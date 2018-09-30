@@ -1,7 +1,0 @@
-https://jqueryui.com/autocomplete/
-
-
-https://www.w3schools.com/howto/howto_js_autocomplete.asp
-
-
-https://www.jqueryscript.net/form/jQuery-Bootstrap-4-Typeahead-Plugin.html

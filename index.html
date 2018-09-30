@@ -29,7 +29,7 @@
   <script src="assets/javascript/logic.js" type="text/javascript"></script>
 
   <!-- Typeahead Reference -->
-  <script src="assets/javascript/bootstrap3-typeahead.js"></script>
+  <script src="assets/javascript/typeahead.bundle.js"></script>
 
   <!--Datatables-->
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -54,6 +54,7 @@
     crossorigin="anonymous"></script>
 
   <!--Custom local stylesheet for common shared elements like header and footer-->
+  <link rel="stylesheet" type="text/css" media="screen" href="assets/css/autocomplete.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
 
 </head>
@@ -123,31 +124,11 @@
           <div class="card-header">Stock Search</div>
           <div class="card-body">
             <!-- Entry Form -->
-            <form role="form" name="myForm" onsubmit="return validateForm()">
+            <form role="form" name="myForm" autocomplete="something-new" onsubmit="return validateForm()">
               <div class="form-group row">
-                <div class="col-5 form-group d-none">
-                  <label for="sector">Select Sectors</label>
-                  <select class="form-control" id="sector-select">
-                    <option style="display:none">Choose Sector</option>
-                    <option>Consumer Discretionary</option>
-                    <option>Consumer Staples</option>
-                    <option>Energy</option>
-                    <option>Financials</option>
-                    <option>Health Care</option>
-                    <option>Industrials</option>
-                    <option>Information Technology</option>
-                    <option>Materials</option>
-                    <option>Real Estate</option>
-                    <option>Telecommunication Services</option>
-                    <option>Utilities</option>
-                  </select>
-                </div>
-                <div class="col-2 text-center flex-direction-column align-self-center d-none">
-                  <span class="font-weight-bold">-- OR --</span>
-                </div>
-                <div class="col-5">
+                <div id="autocomplete-company-name-div" class="mx-auto" autocomplete="Google-U-R-Driving-Me-Bannannas" >
                   <label for="company-name-input">Company Name</label>
-                  <input class="typeahead form-control" id="company-name-input" placeholder="ABC Company" type="text" />
+                  <input class="typeahead form-control mr-2" id="company-name-input" placeholder="ABC Company"  autocomplete="something-new" type="text" />
                   <button type="submit" id="add-company-button">Search</button>
                 </div>
               </div>
