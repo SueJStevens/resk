@@ -157,13 +157,13 @@ $(function () {
       //loop through the returned object and append the HTML into the ticker div
       for (var i = 0; i < count - 1; i++) {
         symbol = Object.keys(response)[i];
-        companyName = Object.values(response)[i].quote.companyName;
+        companyNameMarquee = Object.values(response)[i].quote.companyName;
         changeInPrice = Object.values(response)[i].quote.change;
 
         var newTickerCo = $('<span class="font-weight-bold">');
         var newTickerChange = $('<span class="font-weight-normal">');
 
-        newTickerCo.append(" " + symbol + ' ' + companyName + " ");
+        newTickerCo.append(" " + symbol + ' ' + companyNameMarquee + " ");
         newTickerChange.append(" " + changeInPrice + " ");
 
         $("#stock-ticker-div").append(newTickerCo);
