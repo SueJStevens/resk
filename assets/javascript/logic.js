@@ -2,11 +2,11 @@
  * Summary:
  *  This file contains the main logic for 
  *     1. User input (search for stock info based on company name/ticker symbol)
- *     2. Use IEX API to fetch the desired information
+ *     2. Use IEX API to fetch stock information about the company, and the Stocktwits API
+ *        to fetch trending tweets a bout the company.
  *     3. Store recent company searches in FireBase. 
  *        These will be pre-loaded as 'recent/trending' the next time.
  */
-
 
 $(function () {
 
@@ -143,17 +143,19 @@ $('#add-company-button').on("click", function(event){
   event.preventDefault();
     companyName = $('#company-name-input').val().trim().toLowerCase();
     console.log("The company name is "+companyName);
+
+    // Check for blank input
+    if(companyName == ""){
+      console.log("Please enter a company name");
+      return;
+    }
+
     //split the string into two parts:  The stock ticker symbol and the company name
     var tickerFromInput = companyName.substr(0, companyName.indexOf('-') - 1);
     var companyFromInput = companyName.substr(companyName.indexOf("-") + 1);
     console.log("SUE's Ticker: "+tickerFromInput);
     console.log("SUE's Co: "+companyFromInput);
     companyName = tickerFromInput;
-
-    if(companyName == ""){
-      console.log("Please enter a company name");
-      return;
-    }
 
     /* Still TBD: not sure if this will be necessary with auto-complete
     tickerSymbol = lookupCompany(companyName);
@@ -167,6 +169,10 @@ $('#add-company-button').on("click", function(event){
     console.log("Looking up stock info on "+companyName);
 
     getStockInfo(companyName);
+
+    // Also get stock tweets about this company
+    console.log("Getting stock twits on "+ companyName);
+    getStockTwits(companyName);
 });
 
 $('#company-name-input').keypress(function(event){
@@ -190,6 +196,13 @@ $('#company-name-input').keypress(function(event){
       return;
     }
 
+    //split the string into two parts:  The stock ticker symbol and the company name
+    var tickerFromInput = companyName.substr(0, companyName.indexOf('-') - 1);
+    var companyFromInput = companyName.substr(companyName.indexOf("-") + 1);
+    console.log("SUE's Ticker: "+tickerFromInput);
+    console.log("SUE's Co: "+companyFromInput);
+    companyName = tickerFromInput;
+
     /* Still TBD: not sure if this will be necessary with auto-complete
     tickerSymbol = lookupCompany(companyName);
     if(!tickerSymbol){
@@ -201,7 +214,12 @@ $('#company-name-input').keypress(function(event){
     // other info
     console.log("Looking up stock info on "+companyName);
 
+    // Get stock information about this company
     getStockInfo(companyName);
+
+    // Also get stock tweets about this company
+    console.log("Getting stock twits on "+ companyName);
+    getStockTwits(companyName);
   }
   
 });
