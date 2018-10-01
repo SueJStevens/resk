@@ -10,7 +10,7 @@
 
 $(function () {
 
-  // Init DataTables on page load
+  //Upon page load initialize DataTables
   var companyOutput = $('#company-output').DataTable({
     "lengthMenu": [[5, 10, 15, 20, 25 - 1], [5, 10, 15, 20, 25, "All"]]
   });
@@ -97,75 +97,47 @@ $(function () {
     console.log(searchedCompaniesList);
   });
 
-  /**
-   * Summary:
-   *  Callback function that runs when the AJAX
-   *  call to IEX returns a successful response.
-   * 
-   * The response should contain the stock quote
-   * information about the company.
-   * 
-   * @param {object} response : Object returned by IEX
-   */
-  function displayStockInfo(response) {
-    console.log("Here is the stock quote information -");
-    console.log(response.quote);
+  console.log("New company added to fireBase, updated list with " + companyName);
+  console.log(searchedCompaniesList);
+});
 
-    var quote = response.quote;
+/**
+ * Summary:
+ *  Callback function that runs when the AJAX
+ *  call to IEX returns a successful response.
+ * 
+ * The response should contain the stock quote
+ * information about the company.
+ * 
+ * @param {object} response : Object returned by IEX
+ */
+function displayStockInfo(response) {
+  console.log("Here is the stock quote information -");
+  console.log(response.quote);
 
-    //if/else for positiveOrNegative symbol output
-    if (quote.change >= 0) {
-      positiveOrNegative = "+";
+  var quote = response.quote;
 
-    } else {
-      positiveOrNegative = "";
-    }
+  //if/else for positiveOrNegative symbol output
+  if (quote.change >= 0) {
+    positiveOrNegative = "+";
 
-
-    //company output DataTable for all variables is here
-    //sjs moved to top of js file so variable is treated as a global.  commenting out for now until testing is done.
-    //var companyOutput = $('#company-output').DataTable();
-
-    companyOutput.row.add([
-      quote.symbol,
-      quote.companyName,
-      quote.latestPrice,
-      quote.previousClose,
-      positiveOrNegative + quote.change,
-      positiveOrNegative + quote.changePercent
-    ]).draw();
-
-    $("#clear-output-button").on("click", function () {
-      $("#company-output-tbody").empty();
-    });
-
-
+  } else {
+    positiveOrNegative = "";
   }
 
-  /**
-   * Summary:
-   *  Get Stock information on the specified company
-   * 
-   * @param {string} companyName
-   */
-  function getStockInfo(companyName) {
 
-    /*  Construct the AJAX query for IEX.
-     *  It is a batch query to IEX, where type = "quote"
-     */
-    var queryURL = "https://api.iextrading.com/1.0/stock/" + companyName + "/batch?types=quote";
-    $.ajax({
-      url: queryURL,
-      method: "GET",
-      //async: false,
-      timeout: 30000, // timeout of 30 seconds
-      success: displayStockInfo,
-      error: function () {
-        console.log("Error in query response for Company Info");
-        queryFailed = true;
-      }
-    });
-  }
+  //company output DataTable for all variables is here
+  //sjs moved to top of js file so variable is treated as a global.  commenting out for now until testing is done.
+  //var companyOutput = $('#company-output').DataTable();
+
+  companyOutput.row.add([
+    quote.symbol,
+    quote.companyName,
+    quote.latestPrice,
+    quote.previousClose,
+    positiveOrNegative + quote.change,
+    positiveOrNegative + quote.changePercent
+  ]).draw();
 
   /**
    * Summary:
@@ -256,6 +228,7 @@ $(function () {
       companyName = $('#company-name-input').val().trim().toLowerCase();
       console.log("The company name is " + companyName);
 
+      // Check for blank input
       if (companyName == "") {
         console.log("Please enter a company name");
         return;
