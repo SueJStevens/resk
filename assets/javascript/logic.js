@@ -10,6 +10,35 @@
 
 $(function () {
 
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAXVYzxF-AEeVZkY_qwNuUe3FK2yMX94bE",
+    authDomain: "reskybusiness.firebaseapp.com",
+    databaseURL: "https://reskybusiness.firebaseio.com",
+    projectId: "reskybusiness",
+    storageBucket: "reskybusiness.appspot.com",
+    messagingSenderId: "166640070696"
+  };
+  firebase.initializeApp(config);
+
+  var database = firebase.database();
+  var companyName = ""
+ // Firebase watcher .on("child_added"
+ database.ref().on("child_added", function(snapshot){
+
+  companyName=snapshot.val().companyName;
+  console.log(snapshot.val().companyName);
+
+  getStockInfo(companyName);
+  getStockTwits(companyName);
+
+}, function(errorObject) {
+  console.log("Errors handled: " + errorObject.code);
+});
+
+
+
+
   //11 broad GICS sectors
   arrSectors=[
   "Energy", //353 companies
@@ -167,6 +196,10 @@ $('#add-company-button').on("click", function(event){
     // Valid company - construct API call to look up stock price and 
     // other info
     console.log("Looking up stock info on "+companyName);
+
+    database.ref().push({
+      companyName : companyName
+    });
 
     getStockInfo(companyName);
 
