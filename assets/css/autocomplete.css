@@ -1,6 +1,6 @@
 /* scaffolding */
 /* ----------- */
-
+/*
 html {
     overflow-y: scroll;
     *overflow-x: hidden;
@@ -11,7 +11,7 @@ html {
     margin: 0 auto;
     text-align: center;
   }
-  
+  */
   .tt-menu,
   .gist {
     text-align: left;
