@@ -65,7 +65,7 @@
 
   <!--Banner-->
   <!--This where the tweets will go instead of the banner-->
- 
+
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -151,7 +151,7 @@
 
 
   <!-- Outer Container, full width of screen-->
-  <div class="container-fluid">
+  <div class="container-fluid p-0">
     <div class="card mt-1">
       <div class="card-header">Stock Search</div>
       <div class="card-body">
@@ -162,7 +162,7 @@
               <label for="company-name-input">Company Name</label>
               <input class="typeahead form-control mr-2" id="company-name-input" placeholder="ABC Company" autocomplete="something-new"
                 type="text" />
-              <button type="submit" id="add-company-button">Search</button>
+              <button class="btn-sm" type="submit" id="add-company-button">Add to Table</button>
             </div>
           </div>
           <hr />
@@ -175,7 +175,7 @@
             <caption class="caption-top">
               <div class="d-flex justify-content-between ml-5 mr-5">
                 <span>Stock Listing (Recent Search)</span>
-                <button id="clear-output-button">Clear</button>
+                <button class="btn-sm" id="clear-output-button">Clear Table</button>
               </div>
             </caption>
 

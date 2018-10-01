@@ -10,7 +10,12 @@
 
 $(function () {
 
-  // Initialize Firebase
+  // Init DataTables on page load
+  var companyOutput = $('#company-output').DataTable({
+    "lengthMenu": [[5, 10, 15, 20, 25 - 1], [5, 10, 15, 20, 25, "All"]]
+  });
+
+  // Upon page load, initialize Firebase
   var config = {
     apiKey: "AIzaSyAXVYzxF-AEeVZkY_qwNuUe3FK2yMX94bE",
     authDomain: "reskybusiness.firebaseapp.com",
@@ -22,240 +27,244 @@ $(function () {
   firebase.initializeApp(config);
 
   var database = firebase.database();
-  var companyName = ""
- // Firebase watcher .on("child_added"
- database.ref().on("child_added", function(snapshot){
+  var companyName = "";
 
-  companyName=snapshot.val().companyName;
-  console.log(snapshot.val().companyName);
-
-  getStockInfo(companyName);
-  getStockTwits(companyName);
-
-}, function(errorObject) {
-  console.log("Errors handled: " + errorObject.code);
-});
-
-
-
-
-  //11 broad GICS sectors
-  arrSectors=[
-  "Energy", //353 companies
-  "Materials", //308 companies
-  "Industrials", //802 companies
-  "Consumer Discretionary", //615 companies
-  "Consumer Staples", //226 companies
-  "Health Care", //881
-  "Financials", //1626
-  "Technology", //760
-  "Communication Services", //106
-  "Utilities", //150
-  "Real Estate" //477
-    ];
-  
-
-  //encode URL to accomodate spaces in the sectors
-  //var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/market/collection/sector?collectionName="+arrSectors[8]);
-  //Sector Performance
-  //var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/market/sector-performance");
-  //News
-  //var queryURL = encodeURI("https://api.iextrading.com/1.0/stock/market/news/last/10");
-    //logo
-
-
-  // Get company info for all companies listed on IEX (Name, Ticker symbol)
-  getCompanyNames();
-
-
-/**
- * Summary:
- *  This function looks up the company entered by the user.
- *  Returns ticker symbol if present in the list, empty 
- *  string otherwise.
- * 
- * The logic for this function is TBD.
- */
-function lookupCompany(companyName){
-  var tickerSymbol = '';
-  if(!companyName)
-  {
-    return "";
-  }
- 
-  /* Logic to look up company name in the big list */
-  /* THIS IS TBD */
-
-  return tickerSymbol;
-}
-
-/**
- * Summary:
- *  Callback function that runs when the AJAX
- *  call to IEX returns a successful response.
- * 
- * The response should contain the stock quote
- * information about the company.
- * 
- * @param {object} response : Object returned by IEX
- */
-function displayStockInfo(response){
-  console.log("Here is the stock quote information -");
-  console.log(response.quote);
-
-  var quote = response.quote;
-
-  //if/else for positiveOrNegative symbol output
-  if(quote.change >= 0){
-    positiveOrNegative = "+";
-
-  }else{
-    positiveOrNegative = "";
-  }
-    
-
-  //company output DataTable for all variables is here
-  var companyOutput = $('#company-output').DataTable();
-
-  companyOutput.row.add([
-    quote.symbol,
-    quote.companyName,
-    quote.latestPrice,
-    quote.previousClose,
-    positiveOrNegative + quote.change,
-    positiveOrNegative + quote.changePercent
-  ]).draw();
-
-  $("#clear-output-button").on("click", function() {   
-    $("#company-output-tbody").empty();
-  });
-
-
-}
-
-/**
- * Summary:
- *  Get Stock information on the specified company
- * 
- * @param {string} companyName
- */
-function getStockInfo(companyName){
-
-  /*  Construct the AJAX query for IEX.
-   *  It is a batch query to IEX, where type = "quote"
+  /**
+   * Summary: 
+   *  Firebase related callback Function invoked once when the page is loaded.
+   *  This function fetches the recently searched companies from Firebase. 
+   *  For each company, query IEX for stock information and query Stocktwits 
+   *  for trending tweets.
    */
-  var queryURL = "https://api.iextrading.com/1.0/stock/" + companyName + "/batch?types=quote";
-  $.ajax({
-    url: queryURL,
-    method: "GET",
-    //async: false,
-    timeout: 30000, // timeout of 30 seconds
-    success: displayStockInfo,
-    error: function(){
-      console.log("Error in query response for Company Info");
-      queryFailed = true;
-    }
-  });
-}
+  database.ref().once("value").then(function (snapshot) {
 
-/**
- * Summary: 
- *  Click Handler for the 'submit' button.
- *
- * Description.
- *  If the user typed in a company name, it fetches stock info
- *  for that company.
- *  If the user specified a sector, it fetches stock info about
- *  companies in that sector.
- */
-$('#add-company-button').on("click", function(event){
-  event.preventDefault();
-    companyName = $('#company-name-input').val().trim().toLowerCase();
-    console.log("The company name is "+companyName);
-
-    // Check for blank input
-    if(companyName == ""){
-      console.log("Please enter a company name");
+    if (!snapshot.val()) {
+      console.log("Unexpected - snapshot from Firebase is null");
       return;
     }
 
-    //split the string into two parts:  The stock ticker symbol and the company name
-    var tickerFromInput = companyName.substr(0, companyName.indexOf('-') - 1);
-    var companyFromInput = companyName.substr(companyName.indexOf("-") + 1);
-    console.log("SUE's Ticker: "+tickerFromInput);
-    console.log("SUE's Co: "+companyFromInput);
-    companyName = tickerFromInput;
+    console.log(snapshot.val());
 
-    /* Still TBD: not sure if this will be necessary with auto-complete
-    tickerSymbol = lookupCompany(companyName);
-    if(!tickerSymbol){
-      console.log(companyName + " not found");
-      return;
-    }*/
+    snapshot.forEach(function (eachEntry) {
+      var companyObj = eachEntry.val();
 
-    // Valid company - construct API call to look up stock price and 
-    // other info
-    console.log("Looking up stock info on "+companyName);
+      // Check for corrupted objects
+      if (undefined === companyObj.companyName) {
+        console.log("Unexpected error - company object " +
+          "doesn't contain the field 'companyname'");
+        return;
+      }
 
-    database.ref().push({
-      companyName : companyName
+      var companyName = companyObj.companyName;
+      console.log("Snapshot contains " + companyName);
+
+      // Do this in the "child_added" callback instead
+      //searchedCompaniesList.push(companyName);
+
+      // Get stock info from IEX & stock tweets from 
+      // stocktwits
+      getStockInfo(companyName);
+      getStockTwits(companyName);
     });
 
-    getStockInfo(companyName);
+
+    //getStockInfo(companyName);
+    //getStockTwits(companyName);
+
+  }, function (errorObject) {
+    console.log("Errors handled: " + errorObject.code);
+  });
+
+  /**
+   * Summary: 
+   *  Firebase related callback Function invoked each time a new company is
+   *  added to the database.
+   *  This function updates the searchedCompaniesList array with the newly
+   *  added company.  
+   *  It does not update the stock information table, nor does it fetch updated 
+   *  tweets.
+   */
+  database.ref().on("child_added", function (snapshot) {
+    if (undefined === snapshot.val().companyName) {
+      console.log("Unexpected error - company name not found in snapshot");
+      return;
+    }
+
+    var companyName = snapshot.val().companyName;
+    searchedCompaniesList.push(companyName);
+
+    console.log("New company added to fireBase, updated list with " + companyName);
+    console.log(searchedCompaniesList);
+  });
+
+  /**
+   * Summary:
+   *  Callback function that runs when the AJAX
+   *  call to IEX returns a successful response.
+   * 
+   * The response should contain the stock quote
+   * information about the company.
+   * 
+   * @param {object} response : Object returned by IEX
+   */
+  function displayStockInfo(response) {
+    console.log("Here is the stock quote information -");
+    console.log(response.quote);
+
+    var quote = response.quote;
+
+    //if/else for positiveOrNegative symbol output
+    if (quote.change >= 0) {
+      positiveOrNegative = "+";
+
+    } else {
+      positiveOrNegative = "";
+    }
+
+
+    //company output DataTable for all variables is here
+    //sjs moved to top of js file so variable is treated as a global.  commenting out for now until testing is done.
+    //var companyOutput = $('#company-output').DataTable();
+
+    companyOutput.row.add([
+      quote.symbol,
+      quote.companyName,
+      quote.latestPrice,
+      quote.previousClose,
+      positiveOrNegative + quote.change,
+      positiveOrNegative + quote.changePercent
+    ]).draw();
+
+    $("#clear-output-button").on("click", function () {
+      $("#company-output-tbody").empty();
+    });
+
+
+  }
+
+  /**
+   * Summary:
+   *  Get Stock information on the specified company
+   * 
+   * @param {string} companyName
+   */
+  function getStockInfo(companyName) {
+
+    /*  Construct the AJAX query for IEX.
+     *  It is a batch query to IEX, where type = "quote"
+     */
+    var queryURL = "https://api.iextrading.com/1.0/stock/" + companyName + "/batch?types=quote";
+    $.ajax({
+      url: queryURL,
+      method: "GET",
+      //async: false,
+      timeout: 30000, // timeout of 30 seconds
+      success: displayStockInfo,
+      error: function () {
+        console.log("Error in query response for Company Info");
+        queryFailed = true;
+      }
+    });
+  }
+
+  /**
+   * Summary:
+   *  This function does the main input processing for the 
+   *  specified company name. It performs two AJAX queries
+   *  1. IEX to obtain stock information about the company
+   *  2. Stocktwits to obtain trending tweets about the company
+   * 
+   * The logic for this function is TBD.
+   */
+  function processInput(companyName) {
+    //split the string into two parts:  The stock ticker symbol and the company name
+    var tickerFromInput = companyName.substr(0, companyName.indexOf('-') - 1);
+    var companyFromInput = companyName.substr(companyName.indexOf("-") + 1);
+
+    // Verify if company is already present in recents list
+    if (searchedCompaniesList.includes(tickerFromInput)) {
+      console.log(tickerFromInput + " is ALREADY PRESENT in the searched companies");
+      alreadyPresent = true;
+    } else {
+      alreadyPresent = false;
+    }
+    console.log("Current list of searched companies is ");
+    console.log(searchedCompaniesList);
+
+    // Add to Firebase if not already present
+    if (!alreadyPresent) {
+      database.ref().push({
+        companyName: tickerFromInput
+      });
+    }
+
+    // Valid company - construct API call to look up stock price and 
+    // other info
+    console.log("Looking up stock info on " + tickerFromInput);
+    getStockInfo(tickerFromInput);
 
     // Also get stock tweets about this company
-    console.log("Getting stock twits on "+ companyName);
-    getStockTwits(companyName);
-});
-
-$('#company-name-input').keypress(function(event){
-  var keycode = (event.keyCode ? event.keyCode : event.which);
-  var companyName = "";
-  
-  
-  if(keycode !== 13){
-    console.log('You pressed' + event.keyCode + ' key in textbox');
+    console.log("Getting stock twits on " + tickerFromInput);
+    getStockTwits(tickerFromInput);
   }
-  else{
-    var tickerSymbol = "";
 
-    console.log('You pressed a "enter" key in textbox');
+  /**
+   * Summary: 
+   *  Click Handler for the 'submit' button.
+   *
+   * Description.
+   *  If the user typed in a company name, it fetches stock info
+   *  for that company.
+   *  If the user specified a sector, it fetches stock info about
+   *  companies in that sector.
+   */
+  $('#add-company-button').on("click", function (event) {
     event.preventDefault();
     companyName = $('#company-name-input').val().trim().toLowerCase();
-    console.log("The company name is "+companyName);
+    console.log("The company name is " + companyName);
 
-    if(companyName == ""){
+    // Check for blank input
+    if (companyName == "") {
       console.log("Please enter a company name");
       return;
     }
 
-    //split the string into two parts:  The stock ticker symbol and the company name
-    var tickerFromInput = companyName.substr(0, companyName.indexOf('-') - 1);
-    var companyFromInput = companyName.substr(companyName.indexOf("-") + 1);
-    console.log("SUE's Ticker: "+tickerFromInput);
-    console.log("SUE's Co: "+companyFromInput);
-    companyName = tickerFromInput;
+    processInput(companyName);
+  });
 
-    /* Still TBD: not sure if this will be necessary with auto-complete
-    tickerSymbol = lookupCompany(companyName);
-    if(!tickerSymbol){
-      console.log(companyName + " not found");
-      return;
-    }*/
+  /**
+   * Summary: 
+   *  Key press handler to handle the 'enter' button when the user
+   *  enters a company.
+   *
+   * Description.
+   *  If the user typed in a company name, it fetches stock info
+   *  for that company.
+   *  If the user specified a sector, it fetches stock info about
+   *  companies in that sector.
+   */
+  $('#company-name-input').keypress(function (event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    var companyName = "";
 
-    // Valid company - construct API call to look up stock price and 
-    // other info
-    console.log("Looking up stock info on "+companyName);
 
-    // Get stock information about this company
-    getStockInfo(companyName);
+    if (keycode !== 13) {
+      console.log('You pressed' + event.keyCode + ' key in textbox');
+    }
+    else {
+      event.preventDefault();
+      companyName = $('#company-name-input').val().trim().toLowerCase();
+      console.log("The company name is " + companyName);
 
-    // Also get stock tweets about this company
-    console.log("Getting stock twits on "+ companyName);
-    getStockTwits(companyName);
-  }
-  
-});
+      if (companyName == "") {
+        console.log("Please enter a company name");
+        return;
+      }
+
+      processInput(companyName);
+    }
+
+  });
 
 
 }); //end on ready function
