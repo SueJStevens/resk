@@ -7,6 +7,10 @@
  *     
  */
 
+// GLOBALS
+// Array to keep track of the companies searched by the user
+var searchedCompaniesList = [];
+var alreadyPresent = false;
 
 $(function () {
 
