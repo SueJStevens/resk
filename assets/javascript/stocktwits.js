@@ -23,7 +23,7 @@ function getStockTwits(companyName){
     console.log("Here is the first tweet");
     console.log(data.messages[0].body);
   
-    displayStockTwits(data,companyName);
+    displayStockTwits(data);
   
   }); 
   
@@ -33,7 +33,7 @@ function getStockTwits(companyName){
  * Summary.
  *  This function displays the top 5 tweets for the stock 
  * */
-function displayStockTwits(data,companyName){
+function displayStockTwits(data){
 
   // Step 1: Figure out how many tweets are present in  data
   var numTweets = data.messages.length;
