@@ -126,14 +126,16 @@ $(function () {
     //sjs moved to top of js file so variable is treated as a global.  commenting out for now until testing is done.
     //var companyOutput = $('#company-output').DataTable();
 
-    companyOutput.row.add([
-      quote.symbol,
-      quote.companyName,
-      quote.latestPrice,
-      quote.previousClose,
-      positiveOrNegative + quote.change,
-      positiveOrNegative + quote.changePercent
-    ]).draw();
+    if (!alreadyPresent) {
+      companyOutput.row.add([
+        quote.symbol,
+        quote.companyName,
+        quote.latestPrice,
+        quote.previousClose,
+        positiveOrNegative + quote.change,
+        positiveOrNegative + quote.changePercent
+      ]).draw();
+    }
   }
 
   /**
