@@ -12,8 +12,52 @@ $(function () {
 
   //Upon page load initialize DataTables
   var companyOutput = $('#company-output').DataTable({
-    "lengthMenu": [[5, 10, 15, 20, 25 - 1], [5, 10, 15, 20, 25, "All"]]
+    "lengthMenu": [[5, 10, 15, 20, 25 - 1], [5, 10, 15, 20, 25, "All"]],
+
+    
+       columns : [
+        { title : "Symbol" },
+        { title : "Name" },
+        { title : "Current Price" },
+        { title : "Prior Day Close" },
+        { title : "Change",
+          render: function (cellData, type, row ) {
+          if (parseFloat(cellData) > 0.0) {
+              return '<p class="positive">'+cellData+'</p>';
+          } else if (parseFloat(cellData) < 0.0) {
+              return '<p class="negative">'+cellData+'</p>';
+          } else {
+            return '<p class="neutral">'+cellData+'</p>';
+          }
+        }},
+        { title : "% Change",
+          render: function (cellData, type, row ) {
+          if (parseFloat(cellData) > 0.0) {
+              return '<p class="positive">'+cellData+'</p>';
+          } else if (parseFloat(cellData) < 0.0) {
+              return '<p class="negative">'+cellData+'</p>';
+          } else {
+            return '<p class="neutral">'+cellData+'</p>';
+          }
+        }
+      }
+      ]
+       
+
+    //rowCallback: function(row, quote, index){
+      //if(quote.change > 0){
+          //$('td:eq(5)', row).css('color', 'red');
+        //  return $('td:eq(5)', row).html('<span style="red">'+quote.change+'</span>');
+      //}
+      //if(quote.change < 0){
+          //$(row).find('td:eq(5)').css('color', 'green');
+        //  return $($(row).find('td')[5]).css('color','green');
+
+      //}
+    //}
+
   });
+ 
 
   // Upon page load, initialize Firebase
   var config = {
@@ -114,7 +158,7 @@ $(function () {
     var quote = response.quote;
 
     //if/else for positiveOrNegative symbol output
-    if (quote.change >= 0) {
+    if (quote.change > 0) {
       positiveOrNegative = "+";
 
     } else {
@@ -126,6 +170,8 @@ $(function () {
     //sjs moved to top of js file so variable is treated as a global.  commenting out for now until testing is done.
     //var companyOutput = $('#company-output').DataTable();
 
+    var percentFormatted = (100.0 * quote.changePercent).toFixed(3)
+
     if (!alreadyPresent) {
       companyOutput.row.add([
         quote.symbol,
@@ -133,7 +179,7 @@ $(function () {
         quote.latestPrice,
         quote.previousClose,
         positiveOrNegative + quote.change,
-        positiveOrNegative + quote.changePercent
+        positiveOrNegative + percentFormatted + "%"
       ]).draw();
     }
   }
