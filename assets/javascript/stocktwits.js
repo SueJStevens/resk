@@ -42,13 +42,17 @@ function displayStockTwits(data){
 
   console.log("There are "+numTweets+" tweets in the response object");
 
-  if(numTweets > 5){
-    numTweets = 5;
+  if(numTweets > 8){
+    numTweets = 8;
   }
 
   for(var i = 0; i < numTweets; i++){
+    var list = document.getElementById("tweets-msg-"+i);
+      while (list.hasChildNodes()) {   
+          list.removeChild(list.firstChild);
+      }
     tweet = $("<p>").text(data.messages[i].body);
-    $("#tweets-div").append(tweet);
+    $("#tweets-msg-"+i).append(tweet);
   }
 }
 /**
@@ -62,10 +66,11 @@ for (var i = 0; i < arrayLength; i++) {
 }
  */
 
-// this the animation that controlls the carousel
+/* this the animation that controlls the carousel
 $(document).on("ready", function(){
   $('#carouselExampleIndicators').carousel();
 });
+*/
 
 
 
