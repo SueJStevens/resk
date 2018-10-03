@@ -211,3 +211,13 @@ caption {
   max-height: 24px;
   overflow: hidden;
 }
+
+.positive {
+  color: green;
+}
+.negative {
+  color:  red;
+}
+.neutral {
+  color: black;
+}
