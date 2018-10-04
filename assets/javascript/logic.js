@@ -15,11 +15,11 @@ $(function () {
     "lengthMenu": [[5, 10, 15, 20, 25 - 1], [5, 10, 15, 20, 25, "All"]],
 
        columns : [
-        { title : "Symbol" , width: "14%"},
-        { title : "Name" , width: "30%"},
-        { title : "Current Price" , width: "14%"},
-        { title : "Prior Day Close" , width: "14%"},
-        { title : "Change" , width: "14%" ,
+        { title : "Symbol" },
+        { title : "Name" },
+        { title : "Current Price" },
+        { title : "Prior Day Close" },
+        { title : "Change" ,
           render: function (cellData, type, row ) {
           if (parseFloat(cellData) > 0.0) {
               return '<p class="positive">'+cellData+'</p>';
@@ -29,7 +29,7 @@ $(function () {
             return '<p class="neutral">'+cellData+'</p>';
           }
         }},
-        { title : "% Change", width: "14%" ,
+        { title : "% Change", 
           render: function (cellData, type, row ) {
           if (parseFloat(cellData) > 0.0) {
               return '<p class="positive">'+cellData+'</p>';
