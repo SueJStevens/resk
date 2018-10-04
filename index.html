@@ -238,7 +238,10 @@
   <!-- Outer Container, full width of screen-->
   <div class="container-fluid p-0">
     <div class="card mt-1">
-      <div class="card-header">Stock Search</div>
+      <div class="card-header">
+        <!--Rotating Stock Ticker-->
+        <div id="stock-ticker-div" class="stock-ticker container-fluid"></div>
+      </div>
       <div class="card-body">
         <!-- Entry Form -->
         <form role="form" name="myForm" autocomplete="something-new" onsubmit="return validateForm()">
@@ -259,7 +262,7 @@
           <table id="company-output" class="table table-striped table-bordered table-hover">
             <caption class="caption-top">
               <div class="d-flex justify-content-between ml-5 mr-5">
-                <span>Stock Listing (Recent Search)</span>
+                <span>Stock Watch List</span>
                 <button class="btn-sm" id="clear-output-button">Clear Table</button>
               </div>
             </caption>
@@ -277,7 +280,7 @@
             <tbody id="company-output-tbody">
               <!--Rows/Columns retreived from API-->
             </tbody>
-            <tfoot>
+            <tfoot class="thead-dark">
               <tr>
                 <th>Symbol</th>
                 <th>Name</th>
@@ -290,17 +293,12 @@
           </table>
         </div>
         <!--Close Table Wrapper-->
-
-
       </div>
     </div>
   </div>
 
   </div>
   <!--End Outer Container-->
-
-  <!--Rotating Stock Ticker-->
-  <div id="stock-ticker-div" class="stock-ticker mt-5 container-fluid"></div>
 
 </body>
 

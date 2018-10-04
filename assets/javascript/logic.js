@@ -14,13 +14,12 @@ $(function () {
   var companyOutput = $('#company-output').DataTable({
     "lengthMenu": [[5, 10, 15, 20, 25 - 1], [5, 10, 15, 20, 25, "All"]],
 
-    
        columns : [
-        { title : "Symbol" },
-        { title : "Name" },
-        { title : "Current Price" },
-        { title : "Prior Day Close" },
-        { title : "Change",
+        { title : "Symbol" , width: "14%"},
+        { title : "Name" , width: "30%"},
+        { title : "Current Price" , width: "14%"},
+        { title : "Prior Day Close" , width: "14%"},
+        { title : "Change" , width: "14%" ,
           render: function (cellData, type, row ) {
           if (parseFloat(cellData) > 0.0) {
               return '<p class="positive">'+cellData+'</p>';
@@ -30,7 +29,7 @@ $(function () {
             return '<p class="neutral">'+cellData+'</p>';
           }
         }},
-        { title : "% Change",
+        { title : "% Change", width: "14%" ,
           render: function (cellData, type, row ) {
           if (parseFloat(cellData) > 0.0) {
               return '<p class="positive">'+cellData+'</p>';
@@ -165,11 +164,6 @@ $(function () {
       positiveOrNegative = "";
     }
 
-
-    //company output DataTable for all variables is here
-    //sjs moved to top of js file so variable is treated as a global.  commenting out for now until testing is done.
-    //var companyOutput = $('#company-output').DataTable();
-
     var percentFormatted = (100.0 * quote.changePercent).toFixed(3)
 
     if (!alreadyPresent) {
@@ -183,6 +177,10 @@ $(function () {
       ]).draw();
     }
   }
+
+  $("#clear-output-button").on("click", function() {   
+    $("#company-output-tbody").empty();
+  });
 
   /**
    * Summary:
